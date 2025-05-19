@@ -21,20 +21,46 @@ document.getElementById('cardForm').addEventListener('submit', async (event) => 
   const spinner = document.getElementById('loadingSpinner');
   const result = document.getElementById('result');
 
+  // Show API key warning if missing (as a red alert box under the collection search box)
+  let apiKeyAlert = document.getElementById('apiKeyAlert');
+  if (!apiKey) {
+    if (!apiKeyAlert) {
+      apiKeyAlert = document.createElement('div');
+      apiKeyAlert.id = 'apiKeyAlert';
+      apiKeyAlert.style.background = '#ffdddd';
+      apiKeyAlert.style.color = '#a00';
+      apiKeyAlert.style.border = '1px solid #a00';
+      apiKeyAlert.style.padding = '8px 12px';
+      apiKeyAlert.style.margin = '10px 0';
+      apiKeyAlert.style.borderRadius = '4px';
+      apiKeyAlert.style.fontWeight = 'bold';
+      apiKeyAlert.textContent = 'No API key found. You can use the app, but you may be rate-limited or blocked. Please set an API key in Settings for best results.';
+      // Insert after the collection search box
+      const collectionSearch = document.getElementById('collectionSearch');
+      if (collectionSearch && collectionSearch.parentElement) {
+        collectionSearch.parentElement.insertBefore(apiKeyAlert, collectionSearch.nextSibling);
+      }
+    }
+  } else if (apiKeyAlert) {
+    apiKeyAlert.remove();
+  }
+
   // Fade out results
   result.classList.add('fade-out');
-  // Show loading spinner after fade out
   setTimeout(() => {
     spinner.classList.add('show');
     result.innerHTML = '';
   }, 400);
 
   try {
-    if (!apiKey) throw new Error('No API key found. Please set it in the settings.');
+    let headers = {};
+    if (apiKey) {
+      headers['X-Api-Key'] = apiKey;
+    }
 
     const response = await fetch(
       `https://api.pokemontcg.io/v2/cards?q=name:${encodeURIComponent(cardName)}`,
-      { headers: { 'X-Api-Key': apiKey } }
+      { headers }
     );
 
     if (!response.ok) throw new Error('Card not found or an error occurred.');
@@ -658,6 +684,9 @@ document.getElementById('settingsForm').addEventListener('submit', (event) => {
   if (apiKey) {
     localStorage.setItem('apiKey', apiKey);
     document.getElementById('settingsMessage').textContent = 'Settings saved successfully!';
+    // Remove API key alert if present
+    const apiKeyAlert = document.getElementById('apiKeyAlert');
+    if (apiKeyAlert) apiKeyAlert.remove();
     setTimeout(() => {
       document.getElementById('settingsMessage').textContent = '';
     }, 3000);
