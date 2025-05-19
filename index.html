@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PokéArchive</title>
+  <script type="module" crossorigin src="/assets/index-B9ARdYQO.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-DQCSbWnm.css">
+</head>
+<body>
+  <h1>PokéArchive</h1>
+<div class="tabs">
+  <button class="tab-button active" data-tab="search">Search</button>
+  <button class="tab-button" data-tab="decks">Decks</button>
+  <button class="tab-button" data-tab="collection">Collection</button>
+  <button class="tab-button" data-tab="settings">Settings</button>
+</div>
+
+<div id="settings" class="tab-content">
+  <h2>Settings</h2>
+  <form id="settingsForm">
+    <label for="apiKey">API Key:</label>
+    <input type="text" id="apiKey" name="apiKey" placeholder="Enter your API key" required>
+    <button type="submit">Save Settings</button>
+  </form>
+  <div id="settingsMessage" style="margin-top: 10px; color: green;"></div>
+</div>
+
+  <div id="search" class="tab-content active">
+    <form id="cardForm">
+      <label for="cardName">Enter Card Name:</label>
+      <input type="text" id="cardName" name="cardName" required>
+      <button type="submit">Search</button>
+    </form>
+    
+    <div id="result"></div>
+  </div>
+
+  <div id="decks" class="tab-content">
+    <h2>Your Decks</h2>
+    <form id="createDeckForm">
+      <label for="deckName">Create a New Deck:</label>
+      <input type="text" id="deckName" name="deckName" placeholder="Enter deck name" required>
+      <button type="submit">Create Deck</button>
+    </form>
+    <div id="deckList"></div>
+    <div id="selectedDeck" style="display: none;">
+      <h3 id="selectedDeckName"></h3>
+      <button id="backToDecks">Back to Decks</button>
+      <div id="selectedDeckContent"></div>
+    </div>
+  </div>
+
+  <div id="collection" class="tab-content">
+    <h2>Your Collection</h2>
+    <input type="text" id="collectionSearch" placeholder="Search your collection...">
+    <button id="saveCollection">Save Collection</button>
+      <div id="collectionControls" style="text-align:center; margin-bottom:15px;">
+    
+    <select id="collectionSort">
+      <option value="name-asc">Sort: Name (A-Z)</option>
+      <option value="name-desc">Sort: Name (Z-A)</option>
+      <option value="count-desc">Sort: Most Copies</option>
+      <option value="count-asc">Sort: Fewest Copies</option>
+    </select>
+    <select id="collectionFilter">
+      <option value="">All Sets</option>
+      <!-- JS will populate unique set names here -->
+    </select>
+    <select id="collectionTypeFilter">
+      <option value="">All Types</option>
+      <!-- JS will populate unique types -->
+    </select>
+    <select id="collectionRarityFilter">
+      <option value="">All Rarities</option>
+      <!-- JS will populate unique rarities -->
+    </select>
+    <select id="collectionHpFilter">
+      <option value="">All HP</option>
+      <option value="0-60">0–60</option>
+      <option value="61-100">61–100</option>
+      <option value="101-">101+</option>
+    </select>
+    <button id="massEditBtn" style="margin-left:10px;">Mass Edit</button>
+  </div>
+    <div id="collectionContent"></div>
+  </div>
+<div id="loadingSpinner">
+  <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png" alt="Loading..." class="pokeball-spinner">
+</div>
+</body>
+</html>
