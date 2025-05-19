@@ -1,0 +1,427 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+  background-color: #000021;
+  color: white;
+}
+
+h1, h2, h3 {
+  text-align: center;
+  color: white;
+}
+
+.tabs {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.tab-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background-color 0.3s;
+}
+
+.tab-button:hover,
+.tab-button.active {
+  background-color: #0056b3;
+}
+
+.tab-content {
+  display: none;
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+
+.tab-content.active {
+  display: block;
+  opacity: 1;
+}
+
+form {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+#result,
+#collectionContent {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  justify-items: center;
+  margin-top: 20px;
+  padding: 0 50px;
+  gap: 15px;
+}
+
+#collectionSearch,
+#saveCollection {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#collectionSearch {
+  margin-bottom: 10px;
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+
+#saveCollection {
+  margin-bottom: 16px;
+}
+
+.card, .collection-card {
+  background: none;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+  text-align: center;
+  transition: transform 0.2s;
+}
+.card:hover, .collection-card:hover {
+  transform: scale(1.05);
+}
+.card img, .collection-card img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+.collection-card.mass-edit-selected {
+  outline: 3px solid #ff9800;
+  box-shadow: 0 0 8px #ff9800;
+  background: #222244;
+}
+
+.card-flip-container {
+  perspective: 800px;
+  display: inline-block;
+  width: 100%;
+  height: 260px; /* Set a fixed height for the card */
+  position: relative;
+}
+
+.card-flip {
+  width: 100%;
+  height: 100%;
+  transition: transform 0.7s cubic-bezier(.4,2,.6,1);
+  transform-style: preserve-3d;
+  position: relative;
+  /* Start with the back facing user */
+  transform: rotateY(0deg);
+}
+
+.card-flip.flipped {
+  /* Flip to show the front */
+  transform: rotateY(180deg);
+}
+
+.card-front, .card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  left: 0;
+  top: 0;
+}
+
+.card-front {
+  z-index: 2;
+  transform: rotateY(180deg); /* Front is hidden initially */
+}
+
+.card-back {
+  z-index: 1;
+  background: #222;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* No transform here */
+}
+
+/* Info overlay/modal styles */
+.info-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.5);
+  z-index: 2000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s, visibility 0.3s;
+}
+.info-overlay.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Centered info box modal */
+.info-box {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.95);
+  background: #000021;
+  border-radius: 10px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+  z-index: 2100;
+  min-width: 300px;
+  max-width: 90vw;
+  padding: 24px 20px 16px 20px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s, transform 0.3s, visibility 0.3s;
+}
+.info-box.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, -50%) scale(1);
+}
+.info-box h3 {
+  margin: 0 0 10px;
+  font-size: 1.2em;
+  color: #dedede;
+}
+.info-box p {
+  margin: 5px 0;
+  font-size: 0.9em;
+  color: #dedede;
+}
+.info-box button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 0.9em;
+}
+.info-box button:hover {
+  background-color: #0056b3;
+}
+
+/* General button styles */
+button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 0.9em;
+  transition: background-color 0.2s;
+}
+button:hover {
+  background-color: #0056b3;
+}
+
+/* Decks and card lists */
+.deck {
+  margin-bottom: 20px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+.deck h3 {
+  margin: 0 0 10px;
+  font-size: 1.2em;
+  color: #333;
+}
+.delete-deck {
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 0.9em;
+  margin-left: 10px;
+  transition: background-color 0.3s;
+}
+.delete-deck:hover {
+  background-color: #cc0000;
+}
+.card-list {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 15px;
+}
+.deck-card {
+  position: relative;
+}
+.deck-card img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+.deck-card button {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 5px;
+  cursor: pointer;
+  font-size: 0.8em;
+}
+.deck-card button:hover {
+  background-color: #cc0000;
+}
+.card-count {
+  color: #ffffff;
+  background: #cc0000;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 1em;
+  margin: 6px auto 0 auto;
+  width: 36px;
+  text-align: center;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+
+/* Darkened background overlay for deck selection */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+.overlay.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Floating deck selection box */
+.deck-selection-box {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.8);
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  z-index: 1000;
+  width: 300px;
+  text-align: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
+}
+.deck-selection-box.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, -50%) scale(1);
+}
+.deck-selection-box h4 {
+  margin: 0 0 10px;
+  font-size: 1.2em;
+  color: #333;
+}
+.deck-selection-box button {
+  display: block;
+  margin: 10px auto;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-size: 0.9em;
+  transition: background-color 0.2s;
+}
+.deck-selection-box button:hover {
+  background-color: #0056b3;
+}
+.deck-selection-box button:last-child {
+  background-color: #ff4d4d;
+}
+.deck-selection-box button:last-child:hover {
+  background-color: #cc0000;
+}
+
+/* Settings form styles */
+#settingsForm {
+  margin-top: 20px;
+}
+#settingsForm label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+#settingsForm input {
+  width: 30%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+#settingsForm button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-size: 1em;
+}
+#settingsForm button:hover {
+  background-color: #0056b3;
+}
+
+
+
+#result {
+  opacity: 1;
+  transition: opacity 0.4s;
+}
+#result.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+#result.fade-in {
+  opacity: 1;
+  pointer-events: auto;
+}
+#loadingSpinner {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  z-index: 3000;
+  transform: translate(-50%, -50%);
+  background: rgba(0,0,0,0.0);
+  border-radius: 50%;
+  padding: 30px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+#loadingSpinner.show {
+  display: block;
+  opacity: 1;
+}
+.pokeball-spinner {
+  width: 64px;
+  height: 64px;
+  animation: pokespin 1s linear infinite;
+}
+@keyframes pokespin {
+  0% { transform: rotate(0deg);}
+  100% { transform: rotate(360deg);}
+}
