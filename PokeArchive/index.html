@@ -84,71 +84,7 @@
   </div>
     <div id="collectionContent"></div>
   </div>
-
-  <script src="./src/collection.js"></script>
-  <script src="./src/decks.js"></script>
-
-
-  
-<script>
-document.querySelectorAll('.tab-button').forEach(button => {
-  button.addEventListener('click', () => {
-    // Remove "active" from all tab buttons
-    document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
-    button.classList.add('active');
-
-    // Fade out all tab contents
-    document.querySelectorAll('.tab-content.active').forEach(tab => {
-      tab.classList.remove('active');
-      // Wait for fade-out before hiding (optional, for smoother transition)
-      setTimeout(() => { tab.style.display = 'none'; }, 400);
-    });
-
-    // Find and fade in the selected tab
-    const tabId = button.getAttribute('data-tab');
-    const tabContent = document.getElementById(tabId);
-    if (tabContent) {
-      tabContent.style.display = 'block';
-      // Force reflow to restart transition
-      void tabContent.offsetWidth;
-      tabContent.classList.add('active');
-    }
-
-    // If entering the collection tab, render the collection
-    if (tabId === 'collection') {
-      renderCards(collection, 'collectionContent', true);
-    } else {
-      // If leaving the collection tab, clear only the cards (not the search bar)
-      const collectionContent = document.getElementById('collectionContent');
-      if (collectionContent) collectionContent.innerHTML = '';
-    }
-  });
-});
-
-  // On page load: load API key and show the correct tab
-  document.addEventListener('DOMContentLoaded', () => {
-    // Load saved API key into the settings form
-    const savedApiKey = localStorage.getItem('apiKey');
-    if (savedApiKey) {
-      document.getElementById('apiKey').value = savedApiKey;
-    }
-    // Show the first tab by default
-    document.querySelector('.tab-button.active')?.click();
-  });
-
-  // Save settings (API key)
-  document.getElementById('settingsForm').addEventListener('submit', (event) => {
-    event.preventDefault();
-    const apiKey = document.getElementById('apiKey').value.trim();
-    if (apiKey) {
-      localStorage.setItem('apiKey', apiKey);
-      document.getElementById('settingsMessage').textContent = 'Settings saved successfully!';
-      setTimeout(() => {
-        document.getElementById('settingsMessage').textContent = '';
-      }, 3000);
-    }
-  });
-</script>
+  <script type="module" src="./src/main.js"></script>
 <div id="loadingSpinner">
   <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png" alt="Loading..." class="pokeball-spinner">
 </div>
